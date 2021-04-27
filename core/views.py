@@ -23,7 +23,7 @@ from sys import byteorder
 from requests.auth import HTTPBasicAuth
 import copy
 from django.views.decorators.csrf import csrf_exempt
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:\\Users\\ASUS\\OneDrive\\Desktop\\Nstore\\nStore Apps-3f7fed4ffe64.json"
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="gcloud_json.json"
 # from google.cloud import speech_v1p1beta1 as speech
 # from google.cloud import translate_v2
 
@@ -125,8 +125,13 @@ def extract(request, file_name):
             aws_access_key_id='AKIA2H2Q6BQLBDLV64KL',
             aws_secret_access_key='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')
             trans = boto3.client('transcribe')
+            try:
+                trans.get_transcription_job(TranscriptionJobName='trans_with_model18')
+                trans.delete_transcription_job(TranscriptionJobName='trans_with_model18')
+            except:
+                pass
             response = trans.start_transcription_job(
-                TranscriptionJobName='trans_with_model17',
+                TranscriptionJobName='trans_with_model18',
                 LanguageCode='en-US',
                 MediaFormat='wav',
                 Media={
@@ -143,7 +148,7 @@ def extract(request, file_name):
             )
 
             while True:
-                status=trans.get_transcription_job(TranscriptionJobName='trans_with_model17')
+                status=trans.get_transcription_job(TranscriptionJobName='trans_with_model18')
                 if status['TranscriptionJob']['TranscriptionJobStatus'] in ['COMPLETED', 'FAILED']:
                     break
                 print('not yet')
@@ -156,12 +161,12 @@ def extract(request, file_name):
             jsonfile=requests.get(link)
             print(jsonfile)
             s3 = session.resource('s3')
-            object_acl = s3.ObjectAcl('speech-trans','redacted-trans_with_model17.json')
+            object_acl = s3.ObjectAcl('speech-trans','redacted-trans_with_model18.json')
             response = object_acl.put(ACL='public-read')
-            trans.delete_transcription_job(TranscriptionJobName='trans_with_model17')
+            trans.delete_transcription_job(TranscriptionJobName='trans_with_model18')
             #--------------
             arr=[]
-            file123=requests.get('https://s3.ap-south-1.amazonaws.com/speech-trans/redacted-trans_with_model17.json')
+            file123=requests.get('https://s3.ap-south-1.amazonaws.com/speech-trans/redacted-trans_with_model18.json')
             newfile=file123.json()
             file234=newfile['results']['transcripts']
             file456=file234[0]
@@ -340,10 +345,10 @@ def record(request):
 
             
             print("Wait in silence to begin recording; wait in silence to terminate")
-            record_to_file('C:\\Users\\ASUS\\AppData\\Local\\Programs\\Python\\python39\\output.wav')
+            record_to_file('output.wav')
             print("done")
 
-            mic_record_cust='C:\\Users\\ASUS\\AppData\\Local\\Programs\\Python\\python39\\output.wav'
+            mic_record_cust='output.wav'
             #============================UPLOAD AUDIO TO S3====================================
             s3 = boto3.resource('s3')
             s3.meta.client.upload_file(mic_record_cust, 'speech-trans', 'micaudio_cust')
@@ -355,8 +360,13 @@ def record(request):
             aws_access_key_id='AKIA2H2Q6BQLBDLV64KL',
             aws_secret_access_key='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')
             trans = boto3.client('transcribe')
+            try:
+                trans.get_transcription_job(TranscriptionJobName='trans_with_model_mic1')
+                trans.delete_transcription_job(TranscriptionJobName='trans_with_model_mic1')
+            except:
+                pass
             response = trans.start_transcription_job(
-                TranscriptionJobName='trans_with_model17',
+                TranscriptionJobName='trans_with_model_mic1',
                 LanguageCode='en-US',
                 MediaFormat='wav',
                 Media={
@@ -373,7 +383,7 @@ def record(request):
             )
             s=0
             while True:
-                status=trans.get_transcription_job(TranscriptionJobName='trans_with_model17')
+                status=trans.get_transcription_job(TranscriptionJobName='trans_with_model_mic1')
                 if status['TranscriptionJob']['TranscriptionJobStatus'] in ['COMPLETED', 'FAILED']:
                     break
                 if s==0:
@@ -388,12 +398,12 @@ def record(request):
             jsonfile=requests.get(link)
             print(jsonfile)
             s3 = session.resource('s3')
-            object_acl = s3.ObjectAcl('speech-trans','redacted-trans_with_model17.json')
+            object_acl = s3.ObjectAcl('speech-trans','redacted-trans_with_model_mic1.json')
             response = object_acl.put(ACL='public-read')
-            trans.delete_transcription_job(TranscriptionJobName='trans_with_model17')
+            trans.delete_transcription_job(TranscriptionJobName='trans_with_model_mic1')
             #--------------
             arr=[]
-            file123=requests.get('https://s3.ap-south-1.amazonaws.com/speech-trans/redacted-trans_with_model17.json')
+            file123=requests.get('https://s3.ap-south-1.amazonaws.com/speech-trans/redacted-trans_with_model_mic1.json')
             newfile=file123.json()
             file234=newfile['results']['transcripts']
             file456=file234[0]
@@ -555,8 +565,13 @@ def api(request):
                     )   
         trans = boto3.client('transcribe')
         media_uri = "https://speech-trans.s3.ap-south-1.amazonaws.com/"+filename
+        try:
+                trans.get_transcription_job(TranscriptionJobName=L'FASKNEW_2')
+                trans.delete_transcription_job(TranscriptionJobName='FASKNEW_2')
+            except:
+                pass
         response = trans.start_transcription_job(
-            TranscriptionJobName='FLASKNEW_1',
+            TranscriptionJobName='FASKNEW_2',
             LanguageCode='en-US',
             MediaFormat='wav',
             Media={
@@ -573,7 +588,7 @@ def api(request):
         )
         s=0
         while True:
-            status=trans.get_transcription_job(TranscriptionJobName='FLASKNEW_1')
+            status=trans.get_transcription_job(TranscriptionJobName='FASKNEW_2')
             if status['TranscriptionJob']['TranscriptionJobStatus'] in ['COMPLETED', 'FAILED']:
                 break
             if s==0:
@@ -588,12 +603,12 @@ def api(request):
         jsonfile=requests.get(link)
         print(jsonfile)
         s3 = session.resource('s3')
-        object_acl = s3.ObjectAcl('speech-trans','redacted-FLASKNEW_1.json')
+        object_acl = s3.ObjectAcl('speech-trans','redacted-FASKNEW_2.json')
         response = object_acl.put(ACL='public-read')
-        trans.delete_transcription_job(TranscriptionJobName='FLASKNEW_1')
-        #--------------
+        trans.delete_transcription_job(TranscriptionJobName='FASKNEW_2')
+        #-------------- 
         arr=[]
-        file123=requests.get('https://s3.ap-south-1.amazonaws.com/speech-trans/redacted-FLASKNEW_1.json')
+        file123=requests.get('https://s3.ap-south-1.amazonaws.com/speech-trans/redacted-FASKNEW_2.json')
         newfile=file123.json()
         file234=newfile['results']['transcripts']
         file456=file234[0]
