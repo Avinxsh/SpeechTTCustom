@@ -30,8 +30,8 @@ from django.views.decorators.csrf import csrf_exempt
 # client = speech.SpeechClient()
 # from trp import Document as trpDoc
 session = boto3.Session(
-    aws_access_key_id='AKIA2H2Q6BQLBDLV64KL',
-    aws_secret_access_key='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',)
+    aws_access_key_id=key,
+    aws_secret_access_key=key,)
 
 s3 = session.client('s3')
 
@@ -57,8 +57,8 @@ class DocumentCreateView(CreateView):
 def extract(request, file_name):
 
     session = boto3.Session(
-        aws_access_key_id='AKIA2H2Q6BQLBDLV64KL',
-        aws_secret_access_key='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',)
+        aws_access_key_id=key,
+        aws_secret_access_key=key,)
 
     #s3 = session.client('s3')
     s3 = session.resource('s3')
@@ -117,13 +117,13 @@ def extract(request, file_name):
             ###################################################################
         
             
-            aws_access_key_id = "AKIA2H2Q6BQLBDLV64KL"
-            aws_secret_access_key = "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"
+            aws_access_key_id = key
+            aws_secret_access_key = key
             region = "ap-south-1"
             
             session = boto3.Session(
-            aws_access_key_id='AKIA2H2Q6BQLBDLV64KL',
-            aws_secret_access_key='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')
+            aws_access_key_id=key,
+            aws_secret_access_key=key)
             trans = boto3.client('transcribe')
             transcribe = boto3.client('transcribe', region_name='ap-south-1')
             try:
@@ -173,8 +173,8 @@ def extract(request, file_name):
             file456=file234[0]
             file567=file456['transcript']
             #========================================================#
-            aws_access_key_id = "AKIA2H2Q6BQLKDB5OV4R"
-            aws_secret_access_key = "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"
+            aws_access_key_id = key
+            aws_secret_access_key = key
             region = "ap-south-1"
             comprehend = boto3.client(service_name='comprehend', region_name='ap-south-1')
             newjson=json.loads(json.dumps(comprehend.detect_entities(Text=file567, LanguageCode='en'), sort_keys=True, indent=4))
@@ -358,8 +358,8 @@ def record(request):
 
 
             session = boto3.Session(
-            aws_access_key_id='AKIA2H2Q6BQLBDLV64KL',
-            aws_secret_access_key='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')
+            aws_access_key_id=key,
+            aws_secret_access_key=key)
             trans = boto3.client('transcribe')
             transcribe = boto3.client('transcribe', region_name='ap-south-1')
             try:
@@ -411,8 +411,8 @@ def record(request):
             file456=file234[0]
             file567=file456['transcript']
             #========================================================#
-            aws_access_key_id = "AKIA2H2Q6BQLKDB5OV4R"
-            aws_secret_access_key = "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"
+            aws_access_key_id = key
+            aws_secret_access_key = key
             region = "ap-south-1"
             comprehend = boto3.client(service_name='comprehend', region_name='ap-south-1')
             newjson=json.loads(json.dumps(comprehend.detect_entities(Text=file567, LanguageCode='en'), sort_keys=True, indent=4))
@@ -553,8 +553,8 @@ def api(request):
     if request.method == 'POST':
         aud = request.FILES['file']
         session = boto3.Session(
-            aws_access_key_id='AKIA2H2Q6BQLBDLV64KL',
-            aws_secret_access_key='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',)
+            aws_access_key_id=key,
+            aws_secret_access_key=key,)
 
         s3 = session.client('s3')
         if aud:
@@ -617,8 +617,8 @@ def api(request):
         file456=file234[0]
         file567=file456['transcript']
         #========================================================#
-        aws_access_key_id = "AKIA2H2Q6BQLBDLV64KL"
-        aws_secret_access_key = "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"
+        aws_access_key_id = key
+        aws_secret_access_key = key
         region = "ap-south-1"
         comprehend = boto3.client(service_name='comprehend', region_name='ap-south-1')
         newjson=json.loads(json.dumps(comprehend.detect_entities(Text=file567, LanguageCode='en'), sort_keys=True, indent=4))
